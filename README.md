@@ -11,3 +11,9 @@ _The examination management system is a part of the self-study examination manag
 
 # **Logic Flow**  
 ![image](https://github.com/user-attachments/assets/92ba6ffb-0e37-4b62-b5c4-d7fe7cc45613)
+
+# **Main Modules**  
+1. **Testing**: Swagger2 for generating test data rapidly and flexibly.
+2. **Database**: MySQL used for local storage.
+3. **Fuction (back-end)**: Spring boot and MyBatis used as the framework for back-end to access the database.
+4. **Presentation (fore-end)**: PHP used for UI and JSON as request data format.
