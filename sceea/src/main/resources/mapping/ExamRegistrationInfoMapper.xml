@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.ExamRegistrationInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.ExamRegistrationInfo" >
+    <id column="exam_rgstr_id" property="examRgstrId" jdbcType="INTEGER" />
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="kaoci_id" property="kaociId" jdbcType="INTEGER" />
+    <result column="rgstr_time" property="rgstrTime" jdbcType="TIMESTAMP" />
+    <result column="payment_status" property="paymentStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    exam_rgstr_id, id, kaoci_id, rgstr_time,payment_status
+  </sql>
+
+  <select id="selectKaociExamRegistrationInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from exam_registration_info
+    where kaoci_id = #{kaociId,jdbcType=INTEGER} and payment_status = 1
+  </select>
+
+  <select id="selectDistrictExamRegistrationInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    exam_registration_info.*
+    from exam_registration_info,registration_info,district
+    where district.district_id = #{districtId,jdbcType=INTEGER}
+      and district.district_name = registration_info.district
+      and registration_info.id = exam_registration_info.id
+      and exam_registration_info.kaoci_id = #{kaociId,jdbcType=INTEGER}
+      and payment_status = 1
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exam_registration_info
+    where exam_rgstr_id = #{examRgstrId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exam_registration_info
+    where exam_rgstr_id = #{examRgstrId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sceea.system.po.ExamRegistrationInfo" >
+    insert into exam_registration_info (exam_rgstr_id, examinee_id, kaoci_id, 
+      rgstr_time, payment_status)
+    values (#{examRgstrId,jdbcType=INTEGER}, #{examineeId,jdbcType=VARCHAR}, #{kaociId,jdbcType=INTEGER}, 
+      #{rgstrTime,jdbcType=TIMESTAMP}, #{paymentStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sceea.system.po.ExamRegistrationInfo" >
+    insert into exam_registration_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="examRgstrId != null" >
+        exam_rgstr_id,
+      </if>
+      <if test="examineeId != null" >
+        examinee_id,
+      </if>
+      <if test="kaociId != null" >
+        kaoci_id,
+      </if>
+      <if test="rgstrTime != null" >
+        rgstr_time,
+      </if>
+      <if test="paymentStatus != null" >
+        payment_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="examRgstrId != null" >
+        #{examRgstrId,jdbcType=INTEGER},
+      </if>
+      <if test="examineeId != null" >
+        #{examineeId,jdbcType=VARCHAR},
+      </if>
+      <if test="kaociId != null" >
+        #{kaociId,jdbcType=INTEGER},
+      </if>
+      <if test="rgstrTime != null" >
+        #{rgstrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentStatus != null" >
+        #{paymentStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.ExamRegistrationInfo" >
+    update exam_registration_info
+    <set >
+      <if test="examineeId != null" >
+        examinee_id = #{examineeId,jdbcType=VARCHAR},
+      </if>
+      <if test="kaociId != null" >
+        kaoci_id = #{kaociId,jdbcType=INTEGER},
+      </if>
+      <if test="rgstrTime != null" >
+        rgstr_time = #{rgstrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentStatus != null" >
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where exam_rgstr_id = #{examRgstrId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sceea.system.po.ExamRegistrationInfo" >
+    update exam_registration_info
+    set examinee_id = #{examineeId,jdbcType=VARCHAR},
+      kaoci_id = #{kaociId,jdbcType=INTEGER},
+      rgstr_time = #{rgstrTime,jdbcType=TIMESTAMP},
+      payment_status = #{paymentStatus,jdbcType=INTEGER}
+    where exam_rgstr_id = #{examRgstrId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.ExamRegistrationInfo" >
+    update exam_registration_info
+    set examinee_id = #{examineeId,jdbcType=VARCHAR},
+      kaoci_id = #{kaociId,jdbcType=INTEGER},
+      rgstr_time = #{rgstrTime,jdbcType=TIMESTAMP}
+    where exam_rgstr_id = #{examRgstrId,jdbcType=INTEGER}
+  </update>
+</mapper>

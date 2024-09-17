@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.IllegalCaseMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.IllegalCase" >
+    <id column="case_id" property="caseId" jdbcType="INTEGER" />
+    <result column="case_description" property="caseDescription" jdbcType="VARCHAR" />
+    <result column="illegal_id" property="illegalId" jdbcType="INTEGER" />
+    <result column="punishment_id" property="punishmentId" jdbcType="INTEGER" />
+    <result column="assignment_id" property="assignmentId" jdbcType="INTEGER" />
+    <result column="info_id" property="infoId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    case_id, case_description, illegal_id, punishment_id, assignment_id, info_id
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from illegal_case ORDER BY case_id DESC
+  </select>
+
+  <select id="selectKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select *
+    from illegal_case
+    where case_description LIKE '%'${word,jdbcType=VARCHAR}'%'
+    ORDER BY case_id DESC
+  </select>
+
+  <select id="ByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from illegal_case
+    where case_id = #{caseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from illegal_case
+    where case_id = #{caseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sceea.system.po.IllegalCase" >
+    insert into illegal_case (case_description, illegal_id,
+      punishment_id,assignment_id,info_id)
+    values (#{caseDescription,jdbcType=VARCHAR}, #{illegalId,jdbcType=INTEGER},
+      #{punishmentId,jdbcType=INTEGER},#{assignmentId,jdbcType=INTEGER},#{infoId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sceea.system.po.IllegalCase" >
+    insert into illegal_case
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseDescription != null" >
+        case_description,
+      </if>
+      <if test="illegalId != null" >
+        illegal_id,
+      </if>
+      <if test="punishmentId != null" >
+        punishment_id,
+      </if>
+      <if test="assignmentId != null" >
+        assignment_id,
+      </if>
+      <if test="infoId != null" >
+        info_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseDescription != null" >
+        #{caseDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="illegalId != null" >
+        #{illegalId,jdbcType=INTEGER},
+      </if>
+      <if test="punishmentId != null" >
+        #{punishmentId,jdbcType=INTEGER},
+      </if>
+      <if test="assignmentId != null" >
+        #{assignmentId,jdbcType=INTEGER},
+      </if>
+      <if test="infoId != null" >
+        #{infoId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.IllegalCase" >
+    update illegal_case
+    <set >
+      <if test="caseDescription != null" >
+        case_description = #{caseDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="illegalId != null" >
+        illegal_id = #{illegalId,jdbcType=INTEGER},
+      </if>
+      <if test="punishmentId != null" >
+        punishment_id = #{punishmentId,jdbcType=INTEGER},
+      </if>
+      <if test="assignmentId != null" >
+        assignment_id = #{assignmentId,jdbcType=INTEGER},
+      </if>
+      <if test="infoId != null" >
+        info_id = #{infoId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where case_id = #{caseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.IllegalCase" >
+    update illegal_case
+    set case_description = #{caseDescription,jdbcType=VARCHAR},
+      illegal_id = #{illegalId,jdbcType=INTEGER},
+      punishment_id = #{punishmentId,jdbcType=INTEGER},
+      assignment_id = #{assignmentId,jdbcType=INTEGER},
+      info_id = #{infoId,jdbcType=INTEGER},
+    where case_id = #{caseId,jdbcType=INTEGER}
+  </update>
+</mapper>

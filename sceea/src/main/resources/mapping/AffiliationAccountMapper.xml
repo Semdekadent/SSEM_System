@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.AffiliationAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.AffiliationAccount" >
+    <id column="affiliation_id" property="affiliationId" jdbcType="INTEGER" />
+    <result column="affiliation_name" property="affiliationName" jdbcType="VARCHAR" />
+    <result column="affiliation_passwd" property="affiliationPasswd" jdbcType="VARCHAR" />
+    <result column="corporate_body_name" property="corporateBodyName" jdbcType="VARCHAR" />
+    <result column="corporate_body_id" property="corporateBodyId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.sceea.system.po.AffiliationAccount" extends="BaseResultMap" >
+    <result column="authentication_status" property="authenticationStatus" jdbcType="BINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    affiliation_id, affiliation_name, affiliation_passwd, corporate_body_name, corporate_body_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    authentication_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from affiliation_account
+    where affiliation_id = #{affiliationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from affiliation_account
+    where affiliation_id = #{affiliationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sceea.system.po.AffiliationAccount" >
+    insert into affiliation_account (affiliation_id, affiliation_name, affiliation_passwd, 
+      corporate_body_name, corporate_body_id, authentication_status
+      )
+    values (#{affiliationId,jdbcType=INTEGER}, #{affiliationName,jdbcType=VARCHAR}, #{affiliationPasswd,jdbcType=VARCHAR}, 
+      #{corporateBodyName,jdbcType=VARCHAR}, #{corporateBodyId,jdbcType=VARCHAR}, #{authenticationStatus,jdbcType=BINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sceea.system.po.AffiliationAccount" >
+    insert into affiliation_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="affiliationId != null" >
+        affiliation_id,
+      </if>
+      <if test="affiliationName != null" >
+        affiliation_name,
+      </if>
+      <if test="affiliationPasswd != null" >
+        affiliation_passwd,
+      </if>
+      <if test="corporateBodyName != null" >
+        corporate_body_name,
+      </if>
+      <if test="corporateBodyId != null" >
+        corporate_body_id,
+      </if>
+      <if test="authenticationStatus != null" >
+        authentication_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="affiliationId != null" >
+        #{affiliationId,jdbcType=INTEGER},
+      </if>
+      <if test="affiliationName != null" >
+        #{affiliationName,jdbcType=VARCHAR},
+      </if>
+      <if test="affiliationPasswd != null" >
+        #{affiliationPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateBodyName != null" >
+        #{corporateBodyName,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateBodyId != null" >
+        #{corporateBodyId,jdbcType=VARCHAR},
+      </if>
+      <if test="authenticationStatus != null" >
+        #{authenticationStatus,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.AffiliationAccount" >
+    update affiliation_account
+    <set >
+      <if test="affiliationName != null" >
+        affiliation_name = #{affiliationName,jdbcType=VARCHAR},
+      </if>
+      <if test="affiliationPasswd != null" >
+        affiliation_passwd = #{affiliationPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateBodyName != null" >
+        corporate_body_name = #{corporateBodyName,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateBodyId != null" >
+        corporate_body_id = #{corporateBodyId,jdbcType=VARCHAR},
+      </if>
+      <if test="authenticationStatus != null" >
+        authentication_status = #{authenticationStatus,jdbcType=BINARY},
+      </if>
+    </set>
+    where affiliation_id = #{affiliationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sceea.system.po.AffiliationAccount" >
+    update affiliation_account
+    set affiliation_name = #{affiliationName,jdbcType=VARCHAR},
+      affiliation_passwd = #{affiliationPasswd,jdbcType=VARCHAR},
+      corporate_body_name = #{corporateBodyName,jdbcType=VARCHAR},
+      corporate_body_id = #{corporateBodyId,jdbcType=VARCHAR},
+      authentication_status = #{authenticationStatus,jdbcType=BINARY}
+    where affiliation_id = #{affiliationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.AffiliationAccount" >
+    update affiliation_account
+    set affiliation_name = #{affiliationName,jdbcType=VARCHAR},
+      affiliation_passwd = #{affiliationPasswd,jdbcType=VARCHAR},
+      corporate_body_name = #{corporateBodyName,jdbcType=VARCHAR},
+      corporate_body_id = #{corporateBodyId,jdbcType=VARCHAR}
+    where affiliation_id = #{affiliationId,jdbcType=INTEGER}
+  </update>
+</mapper>

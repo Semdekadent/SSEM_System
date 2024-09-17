@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.ExamRoomMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.ExamRoom" >
+    <id column="examroom_id" property="examroomId" jdbcType="INTEGER" />
+    <result column="examroom_name" property="examroomName" jdbcType="VARCHAR" />
+    <result column="location_code" property="locationCode" jdbcType="INTEGER" />
+    <result column="classroom_type" property="classroomType" jdbcType="INTEGER" />
+    <result column="capability" property="capability" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    examroom_id, examroom_name, location_code, classroom_type, capability
+  </sql>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from exam_room
+  </select>
+
+  <select id="selectDistrictAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    exam_room.*
+    from exam_room,exam_location
+    where exam_location.district_id = #{districtId,jdbcType=INTEGER}
+          and  exam_location.location_code = exam_room.location_code
+          and  exam_room.examroom_id  not in (
+            select
+              exam_assignment.examroom_id
+            from exam_assignment,exam_room,exam_location
+            where exam_location.district_id = #{districtId,jdbcType=INTEGER}
+              and exam_location.location_code = exam_room.location_code
+              and exam_room.examroom_id = exam_assignment.examroom_id
+              and exam_assignment.exam_seq = #{examSeq,jdbcType=INTEGER}
+      )
+  </select>
+
+  <select id="selectExamLocationAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from exam_room
+    where location_code = #{locationCode,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exam_room
+    where examroom_id = #{examroomId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exam_room
+    where examroom_id = #{examroomId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sceea.system.po.ExamRoom" >
+    insert into exam_room (examroom_id, examroom_name, location_code, 
+      classroom_type, capability)
+    values (#{examroomId,jdbcType=INTEGER}, #{examroomName,jdbcType=VARCHAR}, #{locationCode,jdbcType=INTEGER}, 
+      #{classroomType,jdbcType=INTEGER}, #{capability,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sceea.system.po.ExamRoom" >
+    insert into exam_room
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="examroomName != null" >
+        examroom_name,
+      </if>
+      <if test="locationCode != null" >
+        location_code,
+      </if>
+      <if test="classroomType != null" >
+        classroom_type,
+      </if>
+      <if test="capability != null" >
+        capability,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="examroomName != null" >
+        #{examroomName,jdbcType=VARCHAR},
+      </if>
+      <if test="locationCode != null" >
+        #{locationCode,jdbcType=INTEGER},
+      </if>
+      <if test="classroomType != null" >
+        #{classroomType,jdbcType=INTEGER},
+      </if>
+      <if test="capability != null" >
+        #{capability,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.ExamRoom" >
+    update exam_room
+    <set >
+      <if test="examroomName != null" >
+        examroom_name = #{examroomName,jdbcType=VARCHAR},
+      </if>
+      <if test="locationCode != null" >
+        location_code = #{locationCode,jdbcType=INTEGER},
+      </if>
+      <if test="classroomType != null" >
+        classroom_type = #{classroomType,jdbcType=INTEGER},
+      </if>
+      <if test="capability != null" >
+        capability = #{capability,jdbcType=INTEGER},
+      </if>
+    </set>
+    where examroom_id = #{examroomId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.ExamRoom" >
+    update exam_room
+    set examroom_name = #{examroomName,jdbcType=VARCHAR},
+      location_code = #{locationCode,jdbcType=INTEGER},
+      classroom_type = #{classroomType,jdbcType=INTEGER},
+      capability = #{capability,jdbcType=INTEGER}
+    where examroom_id = #{examroomId,jdbcType=INTEGER}
+  </update>
+</mapper>

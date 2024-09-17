@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.RegistrationInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.RegistrationInfo" >
+    <id column="info_id" property="infoId" jdbcType="INTEGER" />
+    <result column="examinee_name" property="examineeName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="people" property="people" jdbcType="VARCHAR" />
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="domicile" property="domicile" jdbcType="VARCHAR" />
+    <result column="political_status" property="politicalStatus" jdbcType="VARCHAR" />
+    <result column="registrated_college" property="registratedCollege" jdbcType="VARCHAR" />
+    <result column="registrared_major" property="registraredMajor" jdbcType="VARCHAR" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="affiliation" property="affiliation" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.sceea.system.po.RegistrationInfo" extends="BaseResultMap" >
+    <result column="auditing_status" property="auditingStatus" jdbcType="BINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    info_id, examinee_name, sex, people, id, domicile, political_status, registrated_college, 
+    registrared_major, contact, city, district, affiliation
+  </sql>
+  <sql id="Blob_Column_List" >
+    auditing_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from registration_info
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from registration_info
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sceea.system.po.RegistrationInfo" >
+    insert into registration_info (info_id, examinee_name, sex, 
+      people, id, domicile, 
+      political_status, registrated_college, registrared_major, 
+      contact, city, district, 
+      affiliation, auditing_status)
+    values (#{infoId,jdbcType=INTEGER}, #{examineeName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{people,jdbcType=VARCHAR}, #{id,jdbcType=VARCHAR}, #{domicile,jdbcType=VARCHAR}, 
+      #{politicalStatus,jdbcType=VARCHAR}, #{registratedCollege,jdbcType=VARCHAR}, #{registraredMajor,jdbcType=VARCHAR}, 
+      #{contact,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, 
+      #{affiliation,jdbcType=VARCHAR}, #{auditingStatus,jdbcType=BINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sceea.system.po.RegistrationInfo" >
+    insert into registration_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="infoId != null" >
+        info_id,
+      </if>
+      <if test="examineeName != null" >
+        examinee_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="people != null" >
+        people,
+      </if>
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="domicile != null" >
+        domicile,
+      </if>
+      <if test="politicalStatus != null" >
+        political_status,
+      </if>
+      <if test="registratedCollege != null" >
+        registrated_college,
+      </if>
+      <if test="registraredMajor != null" >
+        registrared_major,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="affiliation != null" >
+        affiliation,
+      </if>
+      <if test="auditingStatus != null" >
+        auditing_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="infoId != null" >
+        #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="examineeName != null" >
+        #{examineeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="people != null" >
+        #{people,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="domicile != null" >
+        #{domicile,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null" >
+        #{politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="registratedCollege != null" >
+        #{registratedCollege,jdbcType=VARCHAR},
+      </if>
+      <if test="registraredMajor != null" >
+        #{registraredMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="affiliation != null" >
+        #{affiliation,jdbcType=VARCHAR},
+      </if>
+      <if test="auditingStatus != null" >
+        #{auditingStatus,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.RegistrationInfo" >
+    update registration_info
+    <set >
+      <if test="examineeName != null" >
+        examinee_name = #{examineeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="people != null" >
+        people = #{people,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null" >
+        id = #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="domicile != null" >
+        domicile = #{domicile,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalStatus != null" >
+        political_status = #{politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="registratedCollege != null" >
+        registrated_college = #{registratedCollege,jdbcType=VARCHAR},
+      </if>
+      <if test="registraredMajor != null" >
+        registrared_major = #{registraredMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="affiliation != null" >
+        affiliation = #{affiliation,jdbcType=VARCHAR},
+      </if>
+      <if test="auditingStatus != null" >
+        auditing_status = #{auditingStatus,jdbcType=BINARY},
+      </if>
+    </set>
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sceea.system.po.RegistrationInfo" >
+    update registration_info
+    set examinee_name = #{examineeName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      people = #{people,jdbcType=VARCHAR},
+      id = #{id,jdbcType=VARCHAR},
+      domicile = #{domicile,jdbcType=VARCHAR},
+      political_status = #{politicalStatus,jdbcType=VARCHAR},
+      registrated_college = #{registratedCollege,jdbcType=VARCHAR},
+      registrared_major = #{registraredMajor,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      affiliation = #{affiliation,jdbcType=VARCHAR},
+      auditing_status = #{auditingStatus,jdbcType=BINARY}
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.RegistrationInfo" >
+    update registration_info
+    set examinee_name = #{examineeName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      people = #{people,jdbcType=VARCHAR},
+      id = #{id,jdbcType=VARCHAR},
+      domicile = #{domicile,jdbcType=VARCHAR},
+      political_status = #{politicalStatus,jdbcType=VARCHAR},
+      registrated_college = #{registratedCollege,jdbcType=VARCHAR},
+      registrared_major = #{registraredMajor,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      affiliation = #{affiliation,jdbcType=VARCHAR}
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </update>
+</mapper>

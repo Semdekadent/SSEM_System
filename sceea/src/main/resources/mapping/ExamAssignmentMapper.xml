@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.ExamAssignmentMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.ExamAssignment" >
+    <id column="assignment_id" property="assignmentId" jdbcType="INTEGER" />
+    <result column="examroom_id" property="examroomId" jdbcType="INTEGER" />
+    <result column="kaoci_id" property="kaociId" jdbcType="INTEGER" />
+    <result column="exam_seq" property="examSeq" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    assignment_id, examroom_id, kaoci_id, exam_seq
+  </sql>
+
+  <select id="selectDistrict" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    exam_assignment.*
+    from exam_assignment,exam_room,exam_location
+    where exam_location.district_id = #{districtId,jdbcType=INTEGER}
+      and exam_location.location_code = exam_room.location_code
+      and exam_room.examroom_id = exam_assignment.examroom_id
+      and exam_assignment.kaoci_id = #{kaociId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exam_assignment
+    where assignment_id = #{assignmentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exam_assignment
+    where assignment_id = #{assignmentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sceea.system.po.ExamAssignment" >
+    insert into exam_assignment (examroom_id, kaoci_id,
+      exam_seq)
+    values (#{examroomId,jdbcType=INTEGER}, #{kaociId,jdbcType=INTEGER},
+      #{examSeq,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sceea.system.po.ExamAssignment" >
+    insert into exam_assignment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="assignmentId != null" >
+        assignment_id,
+      </if>
+      <if test="examroomId != null" >
+        examroom_id,
+      </if>
+      <if test="kaociId != null" >
+        kaoci_id,
+      </if>
+      <if test="examSeq != null" >
+        exam_seq,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="assignmentId != null" >
+        #{assignmentId,jdbcType=INTEGER},
+      </if>
+      <if test="examroomId != null" >
+        #{examroomId,jdbcType=INTEGER},
+      </if>
+      <if test="kaociId != null" >
+        #{kaociId,jdbcType=INTEGER},
+      </if>
+      <if test="examSeq != null" >
+        #{examSeq,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.ExamAssignment" >
+    update exam_assignment
+    <set >
+      <if test="examroomId != null" >
+        examroom_id = #{examroomId,jdbcType=INTEGER},
+      </if>
+      <if test="kaociId != null" >
+        kaoci_id = #{kaociId,jdbcType=INTEGER},
+      </if>
+      <if test="examSeq != null" >
+        exam_seq = #{examSeq,jdbcType=INTEGER},
+      </if>
+    </set>
+    where assignment_id = #{assignmentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.ExamAssignment" >
+    update exam_assignment
+    set examroom_id = #{examroomId,jdbcType=INTEGER},
+      kaoci_id = #{kaociId,jdbcType=INTEGER},
+      exam_seq = #{examSeq,jdbcType=INTEGER}
+    where assignment_id = #{assignmentId,jdbcType=INTEGER}
+  </update>
+</mapper>

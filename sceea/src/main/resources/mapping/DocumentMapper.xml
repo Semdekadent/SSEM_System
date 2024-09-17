@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.DocumentMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.Document" >
+    <id column="doc_id" property="docId" jdbcType="INTEGER" />
+    <result column="doc_type" property="docType" jdbcType="INTEGER" />
+    <result column="doc_name" property="docName" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    doc_id, doc_type,doc_name,address
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from document
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from document
+    where doc_id = #{docId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from document
+    where doc_id = #{docId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.sceea.system.po.Document" >
+    insert into document (doc_type, doc_name,address
+      )
+    values (#{docType,jdbcType=INTEGER}, #{docName,jdbcType=INTEGER},#{address,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.sceea.system.po.Document" >
+    insert into document
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="docId != null" >
+        doc_id,
+      </if>
+      <if test="docType != null" >
+        doc_type,
+      </if>
+      <if test="docName != null" >
+        doc_name,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="docId != null" >
+        #{docId,jdbcType=INTEGER},
+      </if>
+      <if test="docType != null" >
+        #{docType,jdbcType=INTEGER},
+      </if>
+      <if test="docName != null" >
+        #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.Document" >
+    update document
+    <set >
+      <if test="docType != null" >
+        doc_type = #{docType,jdbcType=INTEGER},
+      </if>
+      <if test="docName != null" >
+        doc_name = #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where doc_id = #{docId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.Document" >
+    update document
+    set doc_type = #{docType,jdbcType=INTEGER},
+      doc_name = #{docName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR}
+    where doc_id = #{docId,jdbcType=INTEGER}
+  </update>
+</mapper>

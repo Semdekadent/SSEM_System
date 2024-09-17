@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.AdministrationAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.AdministrationAccount" >
+    <id column="admin_account_id" property="adminAccountId" jdbcType="INTEGER" />
+    <result column="admin_account" property="adminAccount" jdbcType="VARCHAR" />
+    <result column="admin_passwd" property="adminPasswd" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    admin_account_id, admin_account, admin_passwd
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from administration_account
+    where admin_account_id = #{adminAccountId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from administration_account
+    where admin_account_id = #{adminAccountId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sceea.system.po.AdministrationAccount" >
+    insert into administration_account (admin_account_id, admin_account, admin_passwd
+      )
+    values (#{adminAccountId,jdbcType=INTEGER}, #{adminAccount,jdbcType=VARCHAR}, #{adminPasswd,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sceea.system.po.AdministrationAccount" >
+    insert into administration_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adminAccountId != null" >
+        admin_account_id,
+      </if>
+      <if test="adminAccount != null" >
+        admin_account,
+      </if>
+      <if test="adminPasswd != null" >
+        admin_passwd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adminAccountId != null" >
+        #{adminAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="adminAccount != null" >
+        #{adminAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPasswd != null" >
+        #{adminPasswd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.AdministrationAccount" >
+    update administration_account
+    <set >
+      <if test="adminAccount != null" >
+        admin_account = #{adminAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPasswd != null" >
+        admin_passwd = #{adminPasswd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where admin_account_id = #{adminAccountId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.AdministrationAccount" >
+    update administration_account
+    set admin_account = #{adminAccount,jdbcType=VARCHAR},
+      admin_passwd = #{adminPasswd,jdbcType=VARCHAR}
+    where admin_account_id = #{adminAccountId,jdbcType=INTEGER}
+  </update>
+</mapper>

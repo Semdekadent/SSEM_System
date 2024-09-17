@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.KaociMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.Kaoci" >
+    <id column="kaoci_id" property="kaociId" jdbcType="INTEGER" />
+    <result column="exam_id" property="examId" jdbcType="INTEGER" />
+    <result column="exam_time" property="examTime" jdbcType="INTEGER" />
+    <result column="course" property="course" jdbcType="INTEGER" />
+    <result column="exam_duration" property="examDuration" jdbcType="VARCHAR" />
+    <result column="exam_assignment_time" property="examAssignmentTime" jdbcType="TIMESTAMP" />
+    <result column="exam_equipment" property="examEquipment" jdbcType="INTEGER" />
+    <result column="record_print" property="recordPrint" jdbcType="TIMESTAMP" />
+    <result column="file_size" property="fileSize" jdbcType="INTEGER" />
+    <result column="mark_project" property="markProject" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    kaoci_id, exam_id, exam_time, course, exam_duration, exam_assignment_time, exam_equipment, 
+    record_print, file_size , mark_project
+  </sql>
+
+  <select id="selectExamAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from kaoci
+    where exam_id = #{examId,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from kaoci
+    where kaoci_id = #{kaociId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from kaoci
+    where kaoci_id = #{kaociId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.sceea.system.po.Kaoci" >
+    insert into kaoci (kaoci_id, exam_id, exam_time, 
+      course, exam_duration, exam_assignment_time, 
+      exam_equipment, record_print, file_size
+      )
+    values (#{kaociId,jdbcType=INTEGER}, #{examId,jdbcType=INTEGER}, #{examTime,jdbcType=INTEGER},
+      #{course,jdbcType=INTEGER}, #{examDuration,jdbcType=VARCHAR}, #{examAssignmentTime,jdbcType=TIMESTAMP}, 
+      #{examEquipment,jdbcType=INTEGER}, #{recordPrint,jdbcType=TIMESTAMP}, #{fileSize,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.sceea.system.po.Kaoci" >
+    insert into kaoci
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="kaociId != null" >
+        kaoci_id,
+      </if>
+      <if test="examId != null" >
+        exam_id,
+      </if>
+      <if test="examTime != null" >
+        exam_time,
+      </if>
+      <if test="course != null" >
+        course,
+      </if>
+      <if test="examDuration != null" >
+        exam_duration,
+      </if>
+      <if test="examAssignmentTime != null" >
+        exam_assignment_time,
+      </if>
+      <if test="examEquipment != null" >
+        exam_equipment,
+      </if>
+      <if test="recordPrint != null" >
+        record_print,
+      </if>
+      <if test="fileSize != null" >
+        file_size,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="kaociId != null" >
+        #{kaociId,jdbcType=INTEGER},
+      </if>
+      <if test="examId != null" >
+        #{examId,jdbcType=INTEGER},
+      </if>
+      <if test="examTime != null" >
+        #{examTime,jdbcType=INTEGER},
+      </if>
+      <if test="course != null" >
+        #{course,jdbcType=INTEGER},
+      </if>
+      <if test="examDuration != null" >
+        #{examDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="examAssignmentTime != null" >
+        #{examAssignmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examEquipment != null" >
+        #{examEquipment,jdbcType=INTEGER},
+      </if>
+      <if test="recordPrint != null" >
+        #{recordPrint,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileSize != null" >
+        #{fileSize,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.Kaoci" >
+    update kaoci
+    <set >
+      <if test="examId != null" >
+        exam_id = #{examId,jdbcType=INTEGER},
+      </if>
+      <if test="examTime != null" >
+        exam_time = #{examTime,jdbcType=INTEGER},
+      </if>
+      <if test="course != null" >
+        course = #{course,jdbcType=INTEGER},
+      </if>
+      <if test="examDuration != null" >
+        exam_duration = #{examDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="examAssignmentTime != null" >
+        exam_assignment_time = #{examAssignmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examEquipment != null" >
+        exam_equipment = #{examEquipment,jdbcType=INTEGER},
+      </if>
+      <if test="recordPrint != null" >
+        record_print = #{recordPrint,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileSize != null" >
+        file_size = #{fileSize,jdbcType=INTEGER},
+      </if>
+    </set>
+    where kaoci_id = #{kaociId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.Kaoci" >
+    update kaoci
+    set exam_id = #{examId,jdbcType=INTEGER},
+      exam_time = #{examTime,jdbcType=INTEGER},
+      course = #{course,jdbcType=INTEGER},
+      exam_duration = #{examDuration,jdbcType=VARCHAR},
+      exam_assignment_time = #{examAssignmentTime,jdbcType=TIMESTAMP},
+      exam_equipment = #{examEquipment,jdbcType=INTEGER},
+      record_print = #{recordPrint,jdbcType=TIMESTAMP},
+      file_size = #{fileSize,jdbcType=INTEGER}
+    where kaoci_id = #{kaociId,jdbcType=INTEGER}
+  </update>
+
+  <update id="setMarkProject" parameterType="com.sceea.system.po.Kaoci" >
+    update kaoci
+    set mark_project = #{markProject,jdbcType=VARCHAR}
+    where kaoci_id = #{kaociId,jdbcType=INTEGER}
+  </update>
+</mapper>

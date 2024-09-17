@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.ExamInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.ExamInfo" >
+    <id column="exam_info_id" property="examInfoId" jdbcType="INTEGER" />
+    <result column="seat" property="seat" jdbcType="INTEGER" />
+    <result column="examinee_id" property="examineeId" jdbcType="VARCHAR" />
+    <result column="examroom_id" property="examroomId" jdbcType="INTEGER" />
+    <result column="kaoci_id" property="kaociId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    exam_info_id, seat, examinee_id, examroom_id, kaoci_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exam_info
+    where exam_info_id = #{examInfoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exam_info
+    where exam_info_id = #{examInfoId,jdbcType=INTEGER}
+  </delete>
+
+  <select id="selectDistrict" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+      select * from
+        exam_info ,exam_location,exam_room
+      where exam_info.kaoci_id = #{kaociId,jdbcType=INTEGER}
+        and exam_info.examroom_id = exam_room.examroom_id
+        and exam_room.location_code = exam_location.location_code
+        and exam_location.district_id = #{districtId,jdbcType=INTEGER}
+
+  </select>
+
+  <select id="selectExamroom" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select * from
+      exam_info
+    where exam_info.examroom_id = #{examroomId,jdbcType=INTEGER}
+      and exam_info.kaoci_id = #{kaociId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectStudentExam" resultMap="BaseResultMap" >
+    select exam_info.* from
+      exam_info,kaoci
+    where kaoci.exam_id = #{examId}  and
+          kaoci.kaoci_id = exam_info.kaoci_id and
+          exam_info.examinee_id = #{id}
+  </select>
+
+  <insert id="insert" parameterType="com.sceea.system.po.ExamInfo" >
+    insert into exam_info (exam_info_id, seat, examinee_id, 
+      examroom_id, kaoci_id)
+    values (#{examInfoId,jdbcType=INTEGER}, #{seat,jdbcType=INTEGER}, #{examineeId,jdbcType=VARCHAR},
+      #{examroomId,jdbcType=INTEGER}, #{kaociId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sceea.system.po.ExamInfo" >
+    insert into exam_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="examInfoId != null" >
+        exam_info_id,
+      </if>
+      <if test="seat != null" >
+        seat,
+      </if>
+      <if test="examineeId != null" >
+        examinee_id,
+      </if>
+      <if test="examroomId != null" >
+        examroom_id,
+      </if>
+      <if test="kaociId != null" >
+        kaoci_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="examInfoId != null" >
+        #{examInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="seat != null" >
+        #{seat,jdbcType=INTEGER},
+      </if>
+      <if test="examineeId != null" >
+        #{examineeId,jdbcType=VARCHAR},
+      </if>
+      <if test="examroomId != null" >
+        #{examroomId,jdbcType=INTEGER},
+      </if>
+      <if test="kaociId != null" >
+        #{kaociId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.ExamInfo" >
+    update exam_info
+    <set >
+      <if test="seat != null" >
+        seat = #{seat,jdbcType=INTEGER},
+      </if>
+      <if test="examineeId != null" >
+        examinee_id = #{examineeId,jdbcType=VARCHAR},
+      </if>
+      <if test="examroomId != null" >
+        examroom_id = #{examroomId,jdbcType=INTEGER},
+      </if>
+      <if test="kaociId != null" >
+        kaoci_id = #{kaociId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where exam_info_id = #{examInfoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.ExamInfo" >
+    update exam_info
+    set seat = #{seat,jdbcType=INTEGER},
+      examinee_id = #{examineeId,jdbcType=VARCHAR},
+      examroom_id = #{examroomId,jdbcType=INTEGER},
+      kaoci_id = #{kaociId,jdbcType=INTEGER}
+    where exam_info_id = #{examInfoId,jdbcType=INTEGER}
+  </update>
+</mapper>

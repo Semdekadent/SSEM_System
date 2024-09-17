@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.ExamMapper">
+    <resultMap id="BaseResultMap" type="com.sceea.system.po.Exam">
+        <id column="exam_id" property="examId" jdbcType="INTEGER"/>
+        <result column="exam_date" property="examDate" jdbcType="TIMESTAMP"/>
+        <result column="exam_name" property="examName" jdbcType="VARCHAR"/>
+        <result column="exam_type" property="examType" jdbcType="INTEGER"/>
+        <result column="exam_rgst_sdate" property="examRgstSdate" jdbcType="TIMESTAMP"/>
+        <result column="exam_rgst_edate" property="examRgstEdate" jdbcType="TIMESTAMP"/>
+        <result column="exam_nums" property="examNums" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        exam_id
+        , exam_date, exam_name, exam_type, exam_rgst_sdate, exam_rgst_edate, exam_nums
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from exam
+        where exam_id = #{examId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from exam
+        where exam_name = #{examName,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from exam order by exam_id desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from exam
+        where exam_id = #{examId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.sceea.system.po.Exam">
+        insert into exam (exam_id, exam_date, exam_name,
+                          exam_type, exam_rgst_sdate, exam_rgst_edate,
+                          exam_nums)
+        values (#{examId,jdbcType=INTEGER}, #{examDate,jdbcType=TIMESTAMP}, #{examName,jdbcType=VARCHAR},
+                #{examType,jdbcType=INTEGER}, #{examRgstSdate,jdbcType=TIMESTAMP}, #{examRgstEdate,jdbcType=TIMESTAMP},
+                #{examNums,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.sceea.system.po.Exam">
+        insert into exam
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="examId != null">
+                exam_id,
+            </if>
+            <if test="examDate != null">
+                exam_date,
+            </if>
+            <if test="examName != null">
+                exam_name,
+            </if>
+            <if test="examType != null">
+                exam_type,
+            </if>
+            <if test="examRgstSdate != null">
+                exam_rgst_sdate,
+            </if>
+            <if test="examRgstEdate != null">
+                exam_rgst_edate,
+            </if>
+            <if test="examNums != null">
+                exam_nums,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="examId != null">
+                #{examId,jdbcType=INTEGER},
+            </if>
+            <if test="examDate != null">
+                #{examDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="examName != null">
+                #{examName,jdbcType=VARCHAR},
+            </if>
+            <if test="examType != null">
+                #{examType,jdbcType=INTEGER},
+            </if>
+            <if test="examRgstSdate != null">
+                #{examRgstSdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="examRgstEdate != null">
+                #{examRgstEdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="examNums != null">
+                #{examNums,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.Exam">
+        update exam
+        <set>
+            <if test="examDate != null">
+                exam_date = #{examDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="examName != null">
+                exam_name = #{examName,jdbcType=VARCHAR},
+            </if>
+            <if test="examType != null">
+                exam_type = #{examType,jdbcType=INTEGER},
+            </if>
+            <if test="examRgstSdate != null">
+                exam_rgst_sdate = #{examRgstSdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="examRgstEdate != null">
+                exam_rgst_edate = #{examRgstEdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="examNums != null">
+                exam_nums = #{examNums,jdbcType=INTEGER},
+            </if>
+        </set>
+        where exam_id = #{examId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.Exam">
+        update exam
+        set exam_date       = #{examDate,jdbcType=TIMESTAMP},
+            exam_name       = #{examName,jdbcType=VARCHAR},
+            exam_type       = #{examType,jdbcType=INTEGER},
+            exam_rgst_sdate = #{examRgstSdate,jdbcType=TIMESTAMP},
+            exam_rgst_edate = #{examRgstEdate,jdbcType=TIMESTAMP},
+            exam_nums       = #{examNums,jdbcType=INTEGER}
+        where exam_id = #{examId,jdbcType=INTEGER}
+    </update>
+</mapper>

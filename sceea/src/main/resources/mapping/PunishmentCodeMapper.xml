@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sceea.system.mapper.PunishmentCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.sceea.system.po.PunishmentCode" >
+    <id column="punishment_id" property="punishmentId" jdbcType="INTEGER" />
+    <result column="punishment_name" property="punishmentName" jdbcType="VARCHAR" />
+    <result column="punish_code" property="punishCode" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    punishment_id, punishment_name, punish_code
+  </sql>
+
+  <select id="selectALL" resultMap="BaseResultMap">
+    select * from punishment_code
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from punishment_code
+    where punishment_id = #{punishmentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from punishment_code
+    where punishment_id = #{punishmentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sceea.system.po.PunishmentCode" >
+    insert into punishment_code (punishment_id, punishment_name, punish_code
+      )
+    values (#{punishmentId,jdbcType=INTEGER}, #{punishmentName,jdbcType=VARCHAR}, #{punishCode,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sceea.system.po.PunishmentCode" >
+    insert into punishment_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="punishmentName != null" >
+        punishment_name,
+      </if>
+      <if test="punishCode != null" >
+        punish_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="punishmentName != null" >
+        #{punishmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="punishCode != null" >
+        #{punishCode,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sceea.system.po.PunishmentCode" >
+    update punishment_code
+    <set >
+      <if test="punishmentName != null" >
+        punishment_name = #{punishmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="punishCode != null" >
+        punish_code = #{punishCode,jdbcType=INTEGER},
+      </if>
+    </set>
+    where punishment_id = #{punishmentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sceea.system.po.PunishmentCode" >
+    update punishment_code
+    set punishment_name = #{punishmentName,jdbcType=VARCHAR},
+      punish_code = #{punishCode,jdbcType=INTEGER}
+    where punishment_id = #{punishmentId,jdbcType=INTEGER}
+  </update>
+</mapper>
